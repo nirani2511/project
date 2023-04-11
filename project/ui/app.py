@@ -11,11 +11,16 @@ CUBE_SERVICE_URL = "http://cube:80"
 def home():
     if request.method == "POST":
         num = int(request.form["num"])
-        square = requests.get(SQUARE_SERVICE_URL, params={"num": num}).text
-        cube = requests.get(CUBE_SERVICE_URL, params={"num": num}).text
-        return render_template("index.html", num=num, square=square, cube=cube)
-    else:
-        return render_template("index.html")
+        operation = request.form["operation"]
+        if operation == "square":
+            res = requests.get(SQUARE_SERVICE_URL, params={"num": num})
+            result = res.json()["result"]
+            return render_template("index.html", num=num, square=result)
+        elif operation == "cube":
+            res = requests.get(CUBE_SERVICE_URL, params={"num": num})
+            result = res.json()["result"]
+            return render_template("index.html", num=num, cube=result)
+        else:
+            return "Invalid operation"
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
+    return render_template("index.html")
