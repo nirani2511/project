@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Microservices Example</title>
+  </head>
+  <body>
+    <h1>Microservices Example</h1>
+    <form method="post">
+      <label for="number">Enter a number:</label>
+      <input type="number" id="number" name="number" required>
+      <br>
+      <label for="operation">Select an operation:</label>
+      <select id="operation" name="operation" required>
+        <option value="square">Square</option>
+        <option value="cube">Cube</option>
+      </select>
+      <br>
+      <input type="submit" value="Calculate">
+    </form>
+    {% if result %}
+      <h2>Result: {{ result }}</h2>
+    {% endif %}
+  </body>
+</html>
