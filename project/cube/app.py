@@ -2,7 +2,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/cube")
 def cube():
     num = int(request.args.get("num"))
     return str(num ** 3)
