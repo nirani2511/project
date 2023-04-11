@@ -1,11 +1,8 @@
-FROM python:3.9-slim-buster
+# Base image
+FROM nginx:1.21.1-alpine
 
-WORKDIR /app
+# Copy nginx configuration file
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY requirements.txt .
-
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-CMD ["python", "app.py"]
+# Copy HTML files to container
+COPY index.html /usr/share/nginx/html/
