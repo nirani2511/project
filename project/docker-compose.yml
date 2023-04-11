@@ -4,14 +4,17 @@ services:
     build: ./square
     ports:
       - "5000:80"
+    image: nirani25/project_square:1.0
   cube:
     build: ./cube
     ports:
       - "5001:80"
+    image: nirani25/project_cube:1.0
   ui:
     build: ./ui
     ports:
       - "5002:80"
+    image: nirani25/project_ui:1.0
     depends_on:
       - square
       - cube
