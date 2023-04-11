@@ -13,4 +13,4 @@ def index():
         result = response.text
         return render_template('index.html', result=result)
     else:
-        return render_template('index.html
+        return render_template('index.html')
