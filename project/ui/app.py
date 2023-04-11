@@ -5,14 +5,13 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    num = None
-    operation = None
-    result = None
     if request.method == 'POST':
-        num = request.form['num']
+        num = int(request.form['num'])
         operation = request.form['operation']
-        result = calculate(int(num), operation)
-    return render_template('index.html', num=num, operation=operation, result=result)
+        result = calculate(num, operation)
+        return render_template('index.html', num=num, operation=operation, result=result)
+    else:
+        return render_template('index.html')
 
 def calculate(num, operation):
     if operation == 'square':
@@ -21,7 +20,11 @@ def calculate(num, operation):
         res = requests.get('http://cube:80/cube/{}'.format(num))
     else:
         raise ValueError('Invalid operation: {}'.format(operation))
-    return res.json()['result']
+    res_data = res.json()
+    if 'result' in res_data:
+        return res_data['result']
+    else:
+        raise ValueError('Invalid response: {}'.format(res_data))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=80)
