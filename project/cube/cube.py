@@ -2,11 +2,10 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route('/cube', methods=['GET'])
+@app.route("/")
 def cube():
-    number = request.args.get('number', default=0, type=int)
-    result = number ** 3
-    return str(result)
+    num = int(request.args.get("num"))
+    return str(num ** 3)
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=80)
