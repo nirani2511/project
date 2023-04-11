@@ -1,21 +1,27 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template, request
 import requests
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
 
-SQUARE_SERVICE_URL = "http://square:80"
-CUBE_SERVICE_URL = "http://cube:80"
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    num = None
+    operation = None
+    result = None
+    if request.method == 'POST':
+        num = request.form['num']
+        operation = request.form['operation']
+        result = calculate(int(num), operation)
+    return render_template('index.html', num=num, operation=operation, result=result)
 
-@app.route("/", methods=["GET", "POST"])
-def home():
-    if request.method == "POST":
-        num = int(request.form["num"])
-        square = requests.get(SQUARE_SERVICE_URL, params={"num": num}).text
-        cube = requests.get(CUBE_SERVICE_URL, params={"num": num}).text
-        return render_template("index.html", num=num, square=square, cube=cube)
+def calculate(num, operation):
+    if operation == 'square':
+        res = requests.get('http://square:80/square/{}'.format(num))
+    elif operation == 'cube':
+        res = requests.get('http://cube:80/cube/{}'.format(num))
     else:
-        return render_template("index.html")
+        raise ValueError('Invalid operation: {}'.format(operation))
+    return res.json()['result']
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=80)
