@@ -18,13 +18,8 @@
       <br><br>
       <button type="submit">Calculate</button>
     </form>
-    {% if num %}
-      {% if square %}
-        <p>The square of {{ num }} is {{ square }}</p>
-      {% endif %}
-      {% if cube %}
-        <p>The cube of {{ num }} is {{ cube }}</p>
-      {% endif %}
+    {% if num and result %}
+      <p>The {{ operation }} of {{ num }} is {{ result }}</p>
     {% endif %}
   </body>
 </html>
